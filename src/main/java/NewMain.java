@@ -13,24 +13,45 @@ public class NewMain {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int minesCount;  //how many bombs.
-        int rowCount;    //row of the game borad(array[][])
-        int columnsCount; //
+        System.out.println("enter a numbers for the board:;");
+        int minesCount;
+        /*
+        how many bombs
+         */
+        int rowCount;
+        /*
+        rows of the game borad(array[][])
+         */
+        int columnsCount;
+        /*
+        cols of the game borad(array[][])
+         */
         int row;
+        /*
+        index on the board
+         */
         int col;
-       
-            rowCount = sc.nextInt();
-            columnsCount = sc.nextInt();
-            minesCount = sc.nextInt();
-            Borde g1 = new Borde(minesCount, rowCount, columnsCount);
-            g1.print();
-     
-            while (g1.getGameAlive()) {
-                row = sc.nextInt();
-                col = sc.nextInt();
-                g1.open(row, col);
-            }
-   
-        }
+        /*
+        index on the board
+         */
+        String answer;
+        /*yes or no for restart new game*/
+        int freespace;
 
+        rowCount = sc.nextInt();
+        columnsCount = sc.nextInt();
+        minesCount = sc.nextInt();
+        Borde g1 = new Borde(minesCount, rowCount, columnsCount);
+        g1.print();
+
+        freespace = g1.getOpencellsCount();
+        while (g1.getGameAlive() == true) {
+            row = sc.nextInt();
+            col = sc.nextInt();
+            g1.click(row, col);
+        }
+        System.out.println("do you want a new game?");
+        answer = sc.nextLine();
+        g1.newnewgame(answer);
     }
+}
