@@ -95,18 +95,21 @@ public class NewMain {
             try{
             Borde g1 = new Borde(minesCount, rowCount, columnsCount);
             g1.print();
-            /*yes or no for restart new game*/
+           
             while (g1.getGameAlive() == true) {
 
+                
                 System.out.println("enter a index:");
                 row = sc.nextInt();
                 col = sc.nextInt();
                 g1.click(row, col);
                 g1.print();
             }
-            
+            answer=sc.nextLine();
+            g1.newnewgame(answer);
         } catch (Exception e) {
             System.out.println(e);
+           
         }
     }
 }

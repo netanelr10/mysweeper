@@ -19,12 +19,12 @@ public class Borde {
     private int columnsCount; //column of the game borad(array[][])
     private boolean isBoom = false;
     private int countBoom = 0;
-    private final int minRow=2;//The minimum can be entered on the board   
-    private final int minCol=2;//The minimum can be entered on the board   
-    private final int minCMines=1; //The minimum can be entered on the board   
+    private final int minRow = 2;//The minimum can be entered on the board   
+    private final int minCol = 2;//The minimum can be entered on the board   
+    private final int minCMines = 1; //The minimum can be entered on the board   
     private final int maxRow = 50; //The maximum can be entered on the board
     private final int maxcol = 50; // The maximum can be entered on the board
-    private final int maxmines=49; //The maximum can be entered on the board   
+    private final int maxmines = 49; //The maximum can be entered on the board   
     private int row1;  //loction on the board for input mines on board 
     private int col1; // loction on the board for input mines on board
     private int row; //input of loction on the board
@@ -45,23 +45,28 @@ public class Borde {
      * @param opencellsCount - the clear cells without mines
      */
     public Borde(int minesCount, int rowCount, int columnsCount) {
-        isValid(rowCount,columnsCount,minesCount); //Checks the information the player has entered if it is correct
-     
+        isValid(rowCount, columnsCount, minesCount); //Checks the information the player has entered if it is correct
+
         creategame(rowCount, columnsCount, minesCount);//method who really create the board 
-        notopen(rowCount,columnsCount); // for display ,what the player will see 
+        notopen(rowCount, columnsCount); // for display ,what the player will see 
     }
-    
-    private void creategame(int rowCount,int columnsCount,int minesCount) {
+
+    private void creategame(int rowCount, int columnsCount, int minesCount) {
         this.rowCount = rowCount;
         this.columnsCount = columnsCount;
         this.minesCount = minesCount;
         this.isBoom = false;
         this.bord = new int[rowCount][columnsCount];
         this.displaybord = new int[rowCount][columnsCount];
-        for (int temp9 = 0; temp9 < minesCount; temp9++) {
+
+        for (int temp9 = 0; temp9 < minesCount;) {
             row1 = rand.nextInt(rowCount);
             col1 = rand.nextInt(columnsCount);
+            if (bord[row1][col1] == 9) {
+                continue;
+            }
             bord[row1][col1] = 9;
+            temp9++;
         }
     }
 
@@ -72,7 +77,7 @@ public class Borde {
      * @param temp1-temporary
      * @param temp2-temporary
      */
-    public final void notopen(int rowCount,int columnsCount) {
+    public void notopen(int rowCount, int columnsCount) {
         int temp1;
         int temp2;
         for (temp1 = 0; temp1 < rowCount; temp1++) {
@@ -177,6 +182,7 @@ public class Borde {
 
     /**
      *
+     * that method open
      *
      * @param row
      * @param col
@@ -214,9 +220,11 @@ public class Borde {
 
     /**
      * *
+     * that method open all the empty cells on the board if the player got
+     * 0(empty cell)
      *
-     * @param row
-     * @param col
+     * @param row- index that the player choose
+     * @param col-index that the player choose
      */
     private void openEmptyCells(int row, int col) {
         for (int temp1 = -1; temp1 < 2; temp1++) {
@@ -265,14 +273,12 @@ public class Borde {
         for (int temp1 = 0; temp1 < rowCount; temp1++) {
             for (int temp2 = 0; temp2 < columnsCount; temp2++) {
                 if (isBoom == true) {
-                    displaybord[temp1][temp2] = nighboorBomb(row, col);
-                    System.out.println("you lose game over");
-                    gameAlive = false;
-                    return;
+                    displaybord[temp1][temp2] = nighboorBomb(temp1, temp2);
                 }
             }
         }
-
+        System.out.println("you lose game over");
+        gameAlive = false;
     }
 
     public void newnewgame(String answer) {
@@ -280,7 +286,6 @@ public class Borde {
             System.out.println("goodbye my friend");
             return;
         }
-
         if (answer.equals("yes")) {
             System.out.println("let gooooo");
             gameAlive = true;
@@ -304,34 +309,43 @@ public class Borde {
         }
         return false;
     }
-    private void isValid(int rowCount,int columnsCount,int minesCount) {
+
+    /**
+     * *
+     * that method
+     *
+     * @param rowCount-input of the player
+     * @param columnsCount-input of the player
+     * @param minesCount-input of the player
+     */
+    private void isValid(int rowCount, int columnsCount, int minesCount) {
         boolean isvalid = true;
         String error = "";
-         if(rowCount<minRow){        
-             error = error + "\n" + "your size of rows is bigger than" + minRow;
+        if (rowCount < minRow) {
+            error = error + "\n" + "your size of rows is bigger than" + minRow;
             isvalid = false;
-         }
+        }
         if (rowCount > maxRow) {
             error = error + "\n" + "your size of rows is below than" + maxRow;
             isvalid = false;
         }
         if (columnsCount < minCol) {
-          error=error+"your size of columns is below then " + minCol;
-          isvalid=false;
+            error = error + "your size of columns is below then " + minCol;
+            isvalid = false;
         }
-         if (columnsCount > maxcol) {
+        if (columnsCount > maxcol) {
             error = error + "\n" + " your size of columns is bigger than" + maxcol;
             isvalid = false;
         }
         if (minesCount < minCMines) {
-            error = error + "\n" + "You have no bombs or you have entered a number Below"+ minCMines;
+            error = error + "\n" + "You have no bombs or you have entered a number Below" + minCMines;
             isvalid = false;
         }
         if (minesCount >= columnsCount * rowCount) {
             error = error + "you have too much mines its above the number of cells in the board";
             isvalid = false;
         }
-        
+
         if (!isvalid) {
             throw new ArithmeticException(error);
         }
