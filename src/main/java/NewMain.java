@@ -105,8 +105,6 @@ public class NewMain {
                 g1.click(row, col);
                 g1.print();
             }
-            answer=sc.nextLine();
-            g1.newnewgame(answer);
         } catch (Exception e) {
             System.out.println(e);
            

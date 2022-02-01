@@ -281,21 +281,7 @@ public class Borde {
         gameAlive = false;
     }
 
-    public void newnewgame(String answer) {
-        if (answer.equals("no")) {
-            System.out.println("goodbye my friend");
-            return;
-        }
-        if (answer.equals("yes")) {
-            System.out.println("let gooooo");
-            gameAlive = true;
-            rowCount = 0;
-            columnsCount = 0;
-            minesCount = 0;
-
-        }
-
-    }
+   
 
     /**
      * *
